@@ -1,17 +1,43 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div class="ui container">
+    <application-menu current-view="currentView" v-on:switch-menu="switchMenu"/>
+    <application-canvas :view-mode="currentView" v-on:switch-menu="switchMenu"/>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
+import ApplicationMenu from './components/ApplicationMenu.vue'
+import AccountingPlugins from './plugins/AccountingUtils'
+import ApplicationCanvas from './components/ApplicationCanvas.vue'
 export default {
   name: 'app',
   components: {
-    HelloWorld
+    ApplicationMenu,
+    ApplicationCanvas
+  },
+  data: function(){
+    return {
+      currentView: 'login',
+    }
+      
+  },
+  methods: {
+    switchMenu: function(v){
+        this.currentView = v;
+    }
+  },
+  beforeMount: function(){
+    let token = localStorage.getItem("oauthToken");
+    if(token != null){
+      let response = AccountingPlugins.getAccounts();
+      response.then((data)=>{
+        console.log(data);
+        this.currentView = 'accountList';
+      }).catch((error)=>{
+        console.log(error);
+        localStorage.removeItem("oauthToken");
+      });
+    }
   }
 }
 </script>
