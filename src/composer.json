@@ -1,0 +1,19 @@
+{
+    "require": {
+        "slim/slim": "4.*",
+        "psr/container": "^1.0",
+        "php-di/php-di": "^6.2",
+        "davidepastore/slim-validation": "^0.5.1",
+        "slim/psr7": "^1.1",
+        "doctrine/orm": "^2.6.2",
+        "selective/config": "^1.0"
+    },
+    "autoload": {
+        "psr-4": {
+
+            "jsomhorst\\slim\\Middleware\\": "middleware/",
+            "jsomhorst\\slim\\routes\\": "routing/"
+
+        }
+    }
+}
